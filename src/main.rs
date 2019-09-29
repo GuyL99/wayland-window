@@ -156,13 +156,13 @@ impl Window {
 	let mut r: u8  = 255;
 	let mut g : u8 = 0;
 	let mut b : u8 = 100;
-	self.tmp.seek(SeekFrom::Start(0)).unwrap();
-        for i in 0..(width * height) {
+	self.tmp.seek(SeekFrom::Start((y1*width+x1) as u64)).unwrap();
+        for i in 0..(y2*width+x2) {
             let x = (i % width) as i32;
             let y = (i / width) as i32;
             let w = width as u32;
             let h = height as u32;
-		if y <5+ x*gg+ggg && y> x*gg+ggg -5 && y<y2-((x-x2)*gg) && x>x1-(y-y1)/gg {
+		if y <5+ x*gg+ggg && y> x*gg+ggg -5 && y<y2-((x-x2)*gg)-5 && x>x1-(y-y1)/gg {
 		r = 0;
 	      	g = 0;
 	        b = 0; 
@@ -277,8 +277,9 @@ fn main() {
             if let Some((w, h)) = window.newsize.take() {
                 frame.resize(w, h);
                 window.resize(w, h);
+window.buf_text(&str1,w,h,200,200);
 		window.line_buffer(20,20,200,200);
-                window.buf_text(&str1,w,h,200,200);
+                
                 //window.buf_text(&str2,w,h);
                 //window.buf_text(&str3,w,h);
                 //window.buf_text(&str4,w,h);
